@@ -1,4 +1,4 @@
-@extends('layoutadmin')
+@extends('layoutuser')
 
 @section('title','Home')
 
@@ -12,7 +12,7 @@
 	
 <br>	
 <div class="container">
-	<a class="btn btn-primary" href="{{url('admin/home/create')}}"><i class="fa fa-paint-brush"> </i> Create</a><br><br>
+	<!-- <a class="btn btn-primary" href="{{url('user/home/create')}}"><i class="fa fa-paint-brush"> </i> Create</a><br><br> -->
 		<div class="table-responsive">          
 		<table class="table">
 			<thead>
@@ -34,12 +34,12 @@
 				 	<td>{{$row->news_date}}</td>
 					<!-- <td>{{$row->updated_at}}</td> -->
 					<td>
-						<a class="fl btn btn-primary" id="edit" href="{{url('admin/home/'.$row->news_id.'/edit') }}">EDIT</a>
-						<form action="{{url('admin/home/'.$row->news_id) }}" method="post" onsubmit="return(confirm('Do you want to delete ?'))">
+						<!-- <a class="fl btn btn-primary" id="edit" href="{{url('user/home/'.$row->news_id.'/edit') }}">EDIT</a> -->
+						<!-- <form action="{{url('user/home/'.$row->news_id) }}" method="post" onsubmit="return(confirm('Do you want to delete ?'))">
 						{{ method_field('DELETE') }}
 						{{ csrf_field() }}
 						<button type="submit" class="btn btn-danger">DELETE</button>
-						</form>
+						</form> -->
 					</td>
 				</tr>
 			</tbody>

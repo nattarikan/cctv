@@ -42,9 +42,27 @@
     <input type="text" class="form-control" name="ip" placeholder="Ip" >
   </div>
 
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="camera_brand">Brand</label>
     <input type="text" class="form-control" name="brand" placeholder="Brand" >
+  </div> -->
+
+  <div class="form-group">
+    <label for="camera_brand">Brand</label>
+    <select class="form-control css-require" name="brand" placeholder="Brand" >
+
+        <option value="">Please Select</option>
+        <option value="HIKVISION">HIKVISION</option>
+        <option value="INNEKT">INNEKT</option>
+        <option value="Bosch">Bosch</option>
+        <option value="ACTI">ACTI</option>
+        <option value="AXIS">AXIS</option>
+        <option value="Dinion NER-L2">Dinion NER-L2</option>
+        <option value="Honeywell">Honeywell</option>
+        
+
+      </select>
+
   </div>
 
 

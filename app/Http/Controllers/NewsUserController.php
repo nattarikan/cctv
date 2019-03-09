@@ -13,7 +13,7 @@ use App\Http\Controllers\CheckstatusController;
 
 use Illuminate\Support\Facades\Input;
 
-class NewsController extends Controller
+class NewsUserController extends Controller
 {
     public function __construct()
     {
@@ -27,10 +27,10 @@ class NewsController extends Controller
     public function index()
     {
         $con = new CheckstatusController();
-        $con->checkstatusAdmin();
+        $con->checkstatusUser();
         $objs = News::orderBy('news_id','desc')->paginate(10);
         $data['objs'] = $objs;
-        return view('allNews',$data);
+        return view('allNews_user',$data);
         
 
     }
@@ -43,7 +43,7 @@ class NewsController extends Controller
     public function create()
     {
         $data['method'] = "post";
-        $data['url']    = url('admin/home/');
+        $data['url']    = url('user/home/');
         return view('createNews',$data);
     }
 
@@ -74,7 +74,7 @@ class NewsController extends Controller
         }
          
         $obj->save();
-        return redirect(url('admin/home'));
+        return redirect(url('user/home'));
     }
 
     /**
@@ -99,10 +99,10 @@ class NewsController extends Controller
     {
 
         $obj = News::find($news_id);
-        $data['url']    = url('admin/home/'.$news_id);
+        $data['url']    = url('user/home/'.$news_id);
         $data['method'] = "put";
         $data['obj'] = $obj;
-        return view('allNews',$data);
+        return view('allNews_user',$data);
         //load view
     }
 
@@ -128,7 +128,7 @@ class NewsController extends Controller
         }
          
         $obj->save();
-        return redirect(url('admin/home'));
+        return redirect(url('user/home'));
 
     }
 
@@ -142,7 +142,7 @@ class NewsController extends Controller
     {
         $obj = News::find($news_id);
         $obj->delete();
-        return redirect(url('admin/home'));
+        return redirect(url('user/home'));
 
     }
 
@@ -155,5 +155,5 @@ class NewsController extends Controller
 }
 
 
-
+// User
 

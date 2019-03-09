@@ -1,3 +1,5 @@
+<!-- ประวัติการทำงาน -->
+
 @extends('layoutadmin')
 
 @section('title','All camera')

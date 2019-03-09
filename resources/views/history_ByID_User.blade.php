@@ -1,4 +1,4 @@
-@extends('layoutadmin')
+@extends('layoutuser')
 
 @section('title','History')
 

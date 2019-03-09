@@ -171,6 +171,27 @@ class CameraController extends Controller
         
     }
   
+    public function historyUser(Request $request , $camera_id )
+    {
+
+
+     $jo =    History::orderBy('history_id','desc')
+        ->join('users', 'history.id', '=', 'users.id')
+        ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
+        ->get(array('history.history_id','camera.camera_name','camera.history_des','history.history_last',
+        'camera.camera_server','history.history_date','users.name','camera.camera_id','history.id_post',
+        'camera.camera_ip','camera.camera_brand'));
+
+    
+    $id = $camera_id ;
+    
+    
+        return view('history_ByID_User',['jo' => $jo , 'id' => $id ]);
+        
+    }
+  
+
+
    public function report()
     {
       

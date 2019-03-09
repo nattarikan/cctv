@@ -35,7 +35,7 @@
                 <tr>
 					<td>{{$camera->camera_id}}</td>
 
-					<td><a  id="express" href="{{url('admin/camera/'.$camera->camera_id.'/history') }}">
+					<td><a  id="express" href="{{url('user/camera/'.$camera->camera_id.'/history') }}">
 					{{$camera->camera_name}}
 					</a></td>
 

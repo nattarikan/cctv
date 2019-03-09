@@ -73,8 +73,8 @@
         </a>
         <center>
             <img src="/Admin-icon.png" style="width:50%;" class="w3-round"><br><br>
-            <p class="w3-text-grey">Hi, {{Auth::user()->name}}</p>
             <h5><b>ADMIN PAGE</b></h5>
+            <p class="w3-text-brown">สวัสดี {{Auth::user()->name}}</p>
         </center>
     </div>
   
@@ -82,11 +82,11 @@
 
         <!-- <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>HOME</a>  -->
         <a href="/admin/home" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>หน้าแรก</a> 
-        <a href="/admin/showall" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-fw w3-margin-right"></i>ข้อมูลกล้องทั้งหมด</a> 
+        <a href="/admin/showall" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-camera fa-fw w3-margin-right"></i>ข้อมูลกล้องทั้งหมด</a> 
         <!-- <a href="/admin/express" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-fw w3-margin-right"></i>BORROW EXPRESS</a>  -->
-        <a href="/admin/camera/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-futbol-o fa-fw w3-margin-right"></i>ประวัติการแจ้งซ่อม</a> 
-        <a href="/admin/report" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw w3-margin-right"></i>แจ้งซ่อมกล้องเสีย</a> 
-
+        <a href="/admin/report" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-exclamation-triangle fa-fw w3-margin-right"></i>รายการใหม่</a> 
+        <a href="/admin/camera/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw w3-margin-right"></i>ประวัติการทำงาน</a> 
+        
         <a href="{{ route('logout') }}"
         onclick="event.preventDefault();
         document.getElementById('logout-form').submit();" class="w3-bar-item w3-button w3-padding">
@@ -115,7 +115,7 @@
 <!-- Header  -->
 <header id="portfolio">
 
-    <center><img class="img-responsive" src="/header.png" width="2000" height="156"></center>
+    <center><img class="img-responsive" src="/header.png" width="2000" height="50"></center>
     
 
 
@@ -142,7 +142,7 @@
 
 
 <!-- End Section -->
-<div class="w3-black w3-center w3-padding-24">Copyright © 2017 PSU Sports Equipment.<br> Prince of Songkla University Phuket Campus</div>
+<div class="w3-dark-grey w3-center w3-padding-24">Copyright © 2019 CCTV Maintenance Managing System .<br> Southern Information Technology Co., Ltd.</div>
 
 <!-- End page content -->
 </div>

@@ -106,3 +106,10 @@ Route::get('user/camera/{camera_id}/PostDeclare',[
 	'uses' => 'ShowallUserController@PostDeclare',
 	'as' => 'user.camera.declare_uaer'
 ]);
+
+Route::resource('user/home','NewsUserController');
+
+Route::get('user/camera/{camera_id}/history',[
+	'uses' => 'CameraController@historyUser',
+	'as' => 'user.camera.history_ByID_User'
+]);
