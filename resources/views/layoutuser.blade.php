@@ -29,12 +29,12 @@
 
 
         <meta charset="utf-8">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 
-<link href="vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
-<script src="vendor/select2/dist/js/select2.min.js"></script>
+        <link href="vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="vendor/select2/dist/js/select2.min.js"></script>
 
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -80,8 +80,8 @@
         <a href="/user/home" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>HOME</a> 
         <a href="/user/showall_user" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-camera fa-fw w3-margin-right"></i>ข้อมูลกล้องทั้งหมด</a> 
         <!-- <a href="/admin/express" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-fw w3-margin-right"></i>BORROW EXPRESS</a>  --> 
-        <a href="/admin/send" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-exclamation-triangle fa-fw w3-margin-right"></i>รายการใหม่</a> 
-        <a href="/admin/camera/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw w3-margin-right"></i>ประวัติการทำงาน</a> 
+        <a href="/user/work_user" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-exclamation-triangle fa-fw w3-margin-right"></i>รายการใหม่</a> 
+        <a href="/user/camera/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw w3-margin-right"></i>ประวัติการทำงาน</a> 
 
         <a href="{{ route('logout') }}"
         onclick="event.preventDefault();

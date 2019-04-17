@@ -26,7 +26,7 @@ Route::get('admin/camera/{camera_id}/Ready/','CameraController@GetReady'); //ถ
 
 
 
-//เข้าอันนี้ก่อน
+//cctv แจ้งเสีย
 Route::get('admin/camera/{camera_id}/Declare/','CameraController@GetDeclare');
 
 
@@ -39,33 +39,12 @@ Route::get('admin/camera/{camera_id}/PostDeclare',[
 
 
 
-
-
-
-
-
-
-
-
-
 Route::get('admin/camera/{camera_id}/Select/','CameraController@GetSelect');
 
 Route::get('admin/camera/{camera_id}/PostSelect',[
 	'uses' => 'CameraController@PostSelect',
 	'as' => 'admin.camera.select'
 ]);
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -92,6 +71,11 @@ Route::get('admin/report','CameraController@report');
 
 
 
+
+
+
+
+
 //------------User------------------
 
 Route::get('/user/home', function () {
@@ -104,7 +88,7 @@ Route::get('user/camera/{camera_id}/declare_user/','ShowallUserController@GetDec
 
 Route::get('user/camera/{camera_id}/PostDeclare',[
 	'uses' => 'ShowallUserController@PostDeclare',
-	'as' => 'user.camera.declare_uaer'
+	'as' => 'user.camera.declare_uaer' ////////////////////////////////////////ลองเทสดู
 ]);
 
 Route::resource('user/home','NewsUserController');
@@ -112,4 +96,21 @@ Route::resource('user/home','NewsUserController');
 Route::get('user/camera/{camera_id}/history',[
 	'uses' => 'CameraController@historyUser',
 	'as' => 'user.camera.history_ByID_User'
+]);
+
+Route::get('user/work_user','CameraController@work_user');
+
+Route::get('user/work_user/{work_id}/work_report',[
+	'uses' => 'CameraController@work_report',
+	'as' => 'user.work_user.work_report'
+]);
+
+
+Route::get('user/work_user/{work_id}/get_work_report',[
+	'uses' => 'CameraController@get_work_report',
+	'as' => 'user.work_user.get_work_report'
+]);
+
+Route::get('user/work_user/{work_id}/work_1',[
+	'uses' => 'CameraController@work_1',
 ]);
