@@ -7,79 +7,54 @@
 
 @section('content')
 
+<style>
+	table {
+	    border-collapse: collapse;
+	    /*width: 100%;*/
+	}
+	th {
+	    text-align: left;
+	    padding: 10px;
+	    font-size: 16px;
+	}
+
+	td {
+	    text-align: left;
+	    padding: 8px;
+	}
+
+	tr:nth-child(even){background-color: #e6e6e6}
+
+
+	th {
+	    background-color: #8FB0A9;
+	    color: black;
+	}
+
+	footer {
+	  	border-collapse: collapse;
+	    /*width: 100%;*/
+	    text-align: center;
+	    padding: 12px;
+	    font-size: 20px;
+	    background-color: #617F7F;
+	    color: white;
+	}
+</style>
 
 
 
-@if(isset($jo))
-
-<br>
-<center><h3>กรุณาเลือกช่างหน้างาน</h3></center>
-
-<br><br>
-<div class="table-responsive">          
-	<table class="table">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Server</th>	
-				<th>Last Status</th>	
-				<th>Date</th>
-				<th>Technician</th>
-				<th>ปุ่ม</th>
-			</tr>
-		</thead>
-        
-
-        <tbody> 	
-
-		@foreach($cctv   as $camera)
-
-		@if ($camera->id_posted == 0 && $camera->id_post  ==1)
-		@if ($camera->history_des != 'Ready')
-
-            <tr>
-				<td>{{$camera->history_id}}</td>
-				<td>{{$camera->camera_name}}</td>
-				<td>{{$camera->camera_server}}</td>
-				<td>{{$camera->history_des}}</td>
-				<td>{{$camera->history_date}}</td>
-					
-
-				<td>
-					เจ้าหน้าที่ CCTV : {{    $camera->name  }}
-				</td>
-
-
-				<td>	
-					<a class="btn btn-success btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i></a>
-				</td>
-			</tr>
-
-		@endif
-		@endif
-		@endforeach
-		@endif
-
-
-
-        </tbody>	
-	</table>
-</div>
-
-
-<!-- ------------------------------------------------------------------- -->
 
 <br>
-<center><h3>งานที่กำลังทำ</h3></center>
+<div class="container">
+  <h2>รายการใหม่ Admin</h2>
 
-@if(isset($jo))
 
 
-<br><br>
-<div class="table-responsive">          
-	<table class="table">
-		<thead>
+	<div class="table-responsive">          
+		<table class="table table-bordered">
+			<thead>
+				<footer>กรุณาเลือกช่างหน้างาน</footer>
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
@@ -87,60 +62,118 @@
 					<th>Last Status</th>	
 					<th>Date</th>
 					<th>Technician</th>
-					<th>ปุ่ม</th>
+					<th>Action</th>
 				</tr>
-		</thead>
-       
+			</thead>
+	        
 
-       	<tbody>
+	        <tbody> 	
+
+			@foreach($cctv   as $camera)
+
+			@if ($camera->history_des != 'Ready')
+
+	            <tr>
+					<td>{{$camera->work_report_id}}</td>
+					<td>{{$camera->camera_name}}</td>
+					<td>{{$camera->camera_server}}</td>
+					<td>{{$camera->history_des}}</td>
+					<td>{{$camera->work_report_date}}</td>
+						
+
+					<td>
+						เจ้าหน้าที่ CCTV : {{    $camera->name  }}
+					</td>
+
+
+					<td>	
+						<a class="btn btn-success btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i> ระบุช่างหน้างาน</a>
+					</td>
+				</tr>
+
+
+
+
+			@endif
+			@endforeach	
+
+	        </tbody>	
+		</table>
+	</div>
+
+
+
+
+
+
+
+
+
+<!-- 
+<br>
+<center><h3>งานที่กำลังซ่อม</h3></center> -->
+<br><br>
+
+<div class="table-responsive">          
+	<table class="table table-bordered">
+		<thead>
+			<footer>งานที่กำลังซ่อม</footer>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Server</th>	
+				<th>Date</th>
+				<th>Technician</th>
+				<th>Last Status</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+        
+
+        <tbody> 	
 
 		@foreach($jo   as $camera)
 
+			
+		@if ($camera->work_com_admin == 'ยังไม่เคยส่ง'  )
 
-		@if ($camera->id_post == 2 && $camera->id_posted == 1)
-		@if ($camera->history_des != 'Ready' )
-
+		@if($camera->history_des != 'Ready')
 
             <tr>
-				<td>{{$camera->history_id}}</td>
+				<td>{{$camera->work_id}}</td>
 				<td>{{$camera->camera_name}}</td>
 				<td>{{$camera->camera_server}}</td>
-				<td>{{$camera->history_des}}</td>
-				<td>{{$camera->history_date}}</td>
-					
+				<td>{{$camera->work_date}}</td>
+				<td>ช่างที่รับผิดชอบ : {{    $camera->name  }}</td>
+				<td>{{$camera->work_des}}</td>
 
 				<td>	
-					ช่างหน้างาน : {{    $camera->name  }}
+					<a class="btn btn-success btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/work_report2') }}"><i class="fa fa-check-square"></i> รายงาน</a>
+
+					@if ($camera->work_com == "ช่างซ่อมเสร็จ")
+						<a class="btn btn-primary btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/'.$camera->camera_id.'/Ready_2') }}"><i class="fa fa-check-square"> อนุมัติการซ่อม</i></a>
+					@endif
+
 				</td>
-
-
-				<td>
-					<a class="btn btn-primary btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i> ดูความเคลื่อนไหว</a>
-
-				
-				
+			</tr>
 
 		@endif
 		@endif
+		@endforeach	
 
-		@if ($camera->id_post == 1 && $camera->id_posted == 2)		
-					<a class="btn btn-success btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i>อนุมัติการซ่อม</a>
-		@endif
-
-
-
-
-		@endforeach
-</td>
-
-            </tr>
-		@endif
 
 
 
         </tbody>	
 	</table>
 </div>
+
+<!--  -->
+</div>
+
+
+
+
 
 
 

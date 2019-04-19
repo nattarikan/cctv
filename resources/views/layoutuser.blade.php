@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,11 +18,7 @@
                 }
                 #express{
                     margin-right: 2px;
-
                 }
-
-
-
         </style>
 
 
@@ -62,11 +56,13 @@
 
 <!-- Sidebar/menu -->
     
-    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <nav class="w3-sidebar w3-collapse w3-sand w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+
     <div class="w3-container">
         <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
             <i class="fa fa-remove"></i>
         </a>
+
         <center>
             <img src="/User-icon.png" style="width:50%;" class="w3-round"><br><br>
             <h5><b>USER PAGE</b></h5>
@@ -76,11 +72,12 @@
   
     <div class="w3-bar-block">
 
-        <!-- <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>HOME</a>  -->
         <a href="/user/home" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-home fa-fw w3-margin-right"></i>HOME</a> 
+
         <a href="/user/showall_user" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-camera fa-fw w3-margin-right"></i>ข้อมูลกล้องทั้งหมด</a> 
-        <!-- <a href="/admin/express" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-fw w3-margin-right"></i>BORROW EXPRESS</a>  --> 
+        
         <a href="/user/work_user" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-exclamation-triangle fa-fw w3-margin-right"></i>รายการใหม่</a> 
+
         <a href="/user/camera/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw w3-margin-right"></i>ประวัติการทำงาน</a> 
 
         <a href="{{ route('logout') }}"
@@ -154,13 +151,8 @@ function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("myOverlay").style.display = "none";
 }
-
-
 $(document).ready(function() {
     $('.js-example-basic-multiple').select2();
 });
-
-
 </script>
 </html> 
-

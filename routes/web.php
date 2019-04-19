@@ -19,7 +19,7 @@ Route::resource('admin/camera','CameraController');
 
 Route::get('admin/camera/{camera_id}/Ready/','CameraController@GetReady'); //ถ้าพังเข้าอันนี้
 
-
+Route::get('admin/report/{work_id}/{camera_id}/Ready_2/','CameraController@GetReady_2');
 
 
 
@@ -67,11 +67,21 @@ Route::resource('admin/home','NewsController');
 
 Route::get('admin/report','CameraController@report');
 
+//search
+Route::get('admin/search','CameraController@search');
 
 
+//admin ดูความเคลื่อนไหวช่าง
 
+Route::get('admin/report/{work_id}/work_report2',[
+	'uses' => 'CameraController@work_report2',
+	'as' => 'admin.report.work_report2'
+]);
 
-
+// Route::get('admin/camera/{camera_id}/history',[
+// 	'uses' => 'CameraController@history',
+// 	'as' => 'admin.camera.history_by_id'
+// ]);
 
 
 
@@ -88,7 +98,7 @@ Route::get('user/camera/{camera_id}/declare_user/','ShowallUserController@GetDec
 
 Route::get('user/camera/{camera_id}/PostDeclare',[
 	'uses' => 'ShowallUserController@PostDeclare',
-	'as' => 'user.camera.declare_uaer' ////////////////////////////////////////ลองเทสดู
+	'as' => 'user.camera.declare_uaer' 
 ]);
 
 Route::resource('user/home','NewsUserController');

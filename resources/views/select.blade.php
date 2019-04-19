@@ -8,6 +8,9 @@
 
 <form action="{{ route('admin.camera.select', $data->camera_id ) }}" enctype="multipart/form-data" >
 
+
+
+
   <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
   <br><br>
 

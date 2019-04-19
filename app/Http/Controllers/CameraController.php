@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Camera;
 use App\History;
 use App\User;
+use App\work_report;
+use App\work_repair;
 use App\Work;
 use App\Work_detail;
 use Illuminate\Support\Facades\Input;
@@ -20,7 +22,7 @@ class CameraController extends Controller
         $this->middleware('auth');
     }
 
-
+//history Admin
     public function index()
     {
         $ch = new CheckstatusController();
@@ -35,9 +37,9 @@ class CameraController extends Controller
             ->join('users', 'history.id', '=', 'users.id')
             ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
 
-            ->get(array('history.history_id','camera.camera_name','camera.history_des','history.id_post',
+            ->get(array('history.history_id','camera.camera_name','camera.history_des',
                         'camera.camera_server','history.history_date','users.name',
-                        'camera.camera_ip','camera.camera_brand'));
+                        'camera.camera_ip','camera.camera_brand','history.history_do'));
 
             return view('camera',['objs' => $objs, 'jo' => $jo]);
         
@@ -95,6 +97,18 @@ class CameraController extends Controller
 
     }
 
+    public function search(Request $request)
+    {   $search = $request->get('search');
+        $posts= DB::table('camera')->where(
+            'camera_name',
+            'camera_ip',
+            'camera_server',
+            'camera_brand',
+            'history_des',
+            '%'.$search.'%')->paginate(5);
+        return view('camera', ['posts' => $posts]);
+    }
+
 
 // ลบกล้องหน้าshowall
  
@@ -104,43 +118,12 @@ class CameraController extends Controller
        $obj = Camera::find($camera_id);
        $obj->delete();
        return redirect(url('admin/showall'));
-    
-
-
     }
 
 
-// cctv แจ้งเสีย
-    public function GetDeclare($camera_id)
-    {
-        $data = Camera::find($camera_id);
-        return view('declare')->with('data',$data);
-    }
 
 
-    public function PostDeclare(Request $request , $camera_id )
-    {
 
-        $obj = Camera::find($camera_id);
-        $obj->history_des = $request->history_des;
-        $obj->save();
-
-        $ob = new History();
-        $ob->camera_id = $camera_id;
-        $ob->history_last = $request->history_des;
-        $ob->id = $request['id'];
-        $ob->id_post = "2";
-        $ob->id_posted = "1"; 
-        $ob->save();
-
-        $wo = new Work();
-        $wo->id = $request['id']; 
-        $wo->camera_id = $camera_id;
-        $wo->history_des = $request->history_des;
-        $wo->save();
-
-        return redirect(url('admin/showall'));
-    }
 
 // คืนสถานะพร้อมใช้งาน
    public function GetReady($camera_id)
@@ -154,14 +137,42 @@ class CameraController extends Controller
         $ob->camera_id = $camera_id;
         $ob->history_last = "Ready" ;
         $ob->id = "1001";
-        $ob->id_post = "2";
+        $ob->history_do = "Admin คืนสถานะพร้อมใช้งาน";
         $ob->save();
         
-        return redirect(url('admin/showall'));
-
+        // return redirect(url('admin/showall'));
+        return back();
     }
 
-// ประวัติ
+
+// กดปุ่ม อนุมัติการซ่อม ตารางที่ 2 ของหน้า admin
+       public function GetReady_2(Request $request , $work_id , $camera_id)
+    {
+        
+
+        $obj = Camera::find($camera_id);
+        $obj->history_des = "Ready";
+        $obj->save();
+
+
+        $ob = new History();
+        $ob->camera_id = $camera_id;
+        $ob->history_last = "Ready" ;
+        $ob->id = "1001";
+        $ob->history_do = "Admin คืนสถานะพร้อมใช้งาน";
+        $ob->save();
+
+
+        $ba = Work::find($work_id);
+        $ba->work_com_admin = "เคยส่งแล้ว";
+        $ba->save();
+        
+        return back ();
+       
+    }
+
+
+// ประวัติ เมื่อกด Link
     public function history(Request $request , $camera_id )
     {
 
@@ -170,19 +181,19 @@ class CameraController extends Controller
         ->join('users', 'history.id', '=', 'users.id')
         ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
         ->get(array('history.history_id','camera.camera_name','camera.history_des','history.history_last',
-        'camera.camera_server','history.history_date','users.name','camera.camera_id','history.id_post',
-        'camera.camera_ip','camera.camera_brand'));
+        'camera.camera_server','history.history_date','users.name','camera.camera_id',
+        'camera.camera_ip','camera.camera_brand','history.history_do'));
 
     
     $id = $camera_id ;
     
-    
-        return view('history_by_id',['jo' => $jo , 'id' => $id ]);
+
+    return view('history_by_id',['jo' => $jo , 'id' => $id ]);
         
     }
 
 
-// ประวัติหน้า user
+// ประวัติหน้า user กด Link
     public function historyUser(Request $request , $camera_id )
     {
 
@@ -191,12 +202,8 @@ class CameraController extends Controller
         ->join('users', 'history.id', '=', 'users.id')
         ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
         ->get(array('history.history_id','camera.camera_name','camera.history_des','history.history_last',
-        'camera.camera_server','history.history_date','users.name','camera.camera_id','history.id_post',
-        'camera.camera_ip','camera.camera_brand'));
-
-    
+        'camera.camera_server','history.history_date','users.name','camera.camera_id','camera.camera_ip','camera.camera_brand','history.history_do'));
     $id = $camera_id ;
-    
     
         return view('history_ByID_User',['jo' => $jo , 'id' => $id ]);
         
@@ -204,79 +211,36 @@ class CameraController extends Controller
   
 
 
-   public function report()
+
+// admin แจ้งเสียเอง
+    public function GetDeclare($camera_id)
     {
-      
-       
-        $cctv =    History::orderBy('history_id','desc')
-            ->join('users', 'history.id', '=', 'users.id')
-            ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
-           
-            ->get(array('history.history_id',
-                'camera.camera_name',
-                'camera.history_des',
-                'history.id_post',
-                'camera.camera_server',
-                'history.history_date',
-                'users.name',
-                'camera.camera_id',
-                'camera.camera_ip',
-                'camera.camera_brand',
-                'history.id_posted'));
-
-
-
-
-
-
-        $jo =    History::orderBy('history_id','desc')
-            ->join('users', 'history.id', '=', 'users.id')
-            ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
-            
-
-            ->get(array('history.history_id',
-                'camera.camera_name',
-                'camera.history_des',
-                'history.id_post',
-                'camera.camera_server',
-                'history.history_date',
-                'users.name',
-                'camera.camera_id',
-                'camera.camera_ip',
-                'camera.camera_brand',
-                
-                'history.id_posted'));
-
-            return view('report',[ 'jo' => $jo , 'cctv' => $cctv]);
-        
-         
+        $data = Camera::find($camera_id);
+        return view('declare')->with('data',$data);
     }
 
 
 
 
-        public function GetSelect(Request $request , $camera_id )
-            {
-
-        $data = Camera::find($camera_id);
-        return view('select')->with('data',$data);
-
-            }
-
-
-
-
-// cctv > แจ้ง > admin เลือกช่าง
-    public function PostSelect(Request $request , $camera_id )
+    public function PostDeclare(Request $request , $camera_id )
     {
-      
+
+
+        $obj = Camera::find($camera_id);
+        $obj->history_des = $request->history_des;
+        $obj->save();
+
+
+
+
         $ob = new History();
         $ob->camera_id = $camera_id;
         $ob->history_last = $request->history_des;
-        $ob->id = $request['id']; 
-        $ob->id_post = "2";
-        $ob->id_posted = "1"; 
-        $ob->save();
+        $ob->id = $request['id'];
+        $ob->history_do = "Admin แจ้งเสียเอง" ;
+        $ob->save(); 
+
+
 
         $wo = new Work();
         $wo->id = $request['id']; 
@@ -285,17 +249,152 @@ class CameraController extends Controller
         $wo->save();
 
 
-        $ss = DB::table('history')
-            ->where('camera_id', $camera_id)
-            ->update(['id_posted' => 1]);
+
+        $new2 = new work_repair();
+        $new2->id = $request['id']; 
+        $new2->camera_id = $camera_id;
+        $new2->repair_status = $request->history_des;
+        $new2->save();
+
+        return redirect(url('admin/showall'));
+    }
+
+
+
+
+
+//หน้าโชว์ 3 ตารางของ admin
+   public function report()
+    {
+      
+       // ตาราง 1
+        $cctv =    Work_report::orderBy('work_report_id','desc')
+            ->join('users', 'work_report.id', '=', 'users.id')
+            ->join('camera', 'work_report.camera_id', '=', 'camera.camera_id')
+           
+            ->get(array('work_report.work_report_id',
+                'camera.camera_name',
+                'camera.history_des',
+                'camera.camera_server',
+                'work_report.work_report_date',
+                'users.name',
+                'camera.camera_id',
+                'camera.camera_ip',
+                'camera.camera_brand'));
+
+
+            // ตาราง 2
+        $jo =    Work::orderBy('work_id','desc')
+            ->join('users', 'work.id', '=', 'users.id')
+            ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
+        
+           
+            ->get(array(
+                'camera.camera_name',
+                'camera.history_des',
+                'camera.camera_server',
+                'users.name',
+                'camera.camera_id',
+                'camera.camera_ip',
+                'work.work_id',
+                'camera.camera_brand',
+                'work.work_com',
+                'work.work_com_admin',
+                'work.work_id',
+                'work.work_date',
+                'camera.camera_id',
+                'work.work_des'
+
+                
+            ));
+
+
+
+
+
+            
+
+        // ตาราง 3
+        $table3 = Work::orderBy('work_id','desc')
+            ->join('users', 'work.id', '=', 'users.id')
+            ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
+
+            ->get(array('work.work_id',
+                'camera.camera_name',
+                'camera.history_des',
+                'camera.camera_server',
+                'work.work_com',
+
+                'work.work_date',
+                'users.name',
+                'camera.camera_id',
+                'camera.camera_ip',
+                'camera.camera_brand'));
+            
+
+
+
+
+           return view('report',[ 'jo'=>$jo ,  'cctv' => $cctv ,'table3' => $table3 ]);
+        
+         
+    }
+
+
+
+// cctv > แจ้ง > admin เลือกช่าง (ตาราง 2 ของ admin)  
+
+    public function GetSelect(Request $request , $camera_id )
+    {
+        $data = Camera::find($camera_id);
+        return view('select')->with('data',$data);
+    }
+
+
+
+
+
+    public function PostSelect(Request $request , $camera_id )
+    {
+      
+        $ob = new History();
+        $ob->camera_id = $camera_id;
+        $ob->history_last = $request->history_des;
+        $ob->id = $request['id']; 
+        $ob->history_do = "Admin เลือกช่าง" ;
+        $ob->save();
+
+
+        $del = DB::table('work_report')
+             ->where('camera_id', $camera_id);
+        $del->delete(); 
+
+
+        $wo = new Work();
+        $wo->id = $request['id']; 
+        $wo->camera_id = $camera_id;
+        $wo->history_des = $request->history_des;
+        $wo->save();
+
+
+
+        // งานที่กำลังทำ
+
+
+        $new2 = new work_repair();
+        $new2->id = $request['id']; 
+        $new2->repair_status = $request->history_des;
+        $new2->camera_id = $camera_id;
+        $new2->save();
+
 
         return redirect(url('admin/report'));
 
-
-        
-
-      
     }
+
+
+
+
 
 // หน้า work_user
     public function work_user()
@@ -312,9 +411,10 @@ class CameraController extends Controller
                         'work.work_des','work.work_id',
                         'camera.camera_ip','camera.camera_brand','work.work_com'));
 
-
-
         
+
+
+
             return view('work_user',['objs' => $objs, 'jo' => $jo]);
         
          
@@ -356,6 +456,41 @@ class CameraController extends Controller
         return view('work_report',['data' => $data, 'jo' => $jo]);
     }
 
+// Admin ดู ความเคลื่อนไหว
+
+    public function work_report2(Request $request , $work_id )
+    {
+
+
+        $data = Work::find($work_id);
+
+
+
+        $jo =    Work_detail::orderBy('work_detail_id','desc')
+            ->join('work', 'work_detail.work_id', '=', 'work.work_id')
+            ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
+
+            ->get(array(
+                    'work.work_id',
+                    'work.work_date',
+                    'work.camera_id',
+                    'camera.camera_name',
+                    'camera.camera_id',
+                    'work.work_des',
+                    'work.history_des',
+                    'work.id',
+                    'work.work_com',
+                    'work_detail.work_detail_id',
+                    'work_detail.work_id',
+                    'work_detail.work_pic',
+                    'work_detail.work_des',
+                   
+                   ));
+
+
+
+        return view('work_report2',['data' => $data,'jo' => $jo]);
+    }
 
 
 
@@ -374,27 +509,13 @@ class CameraController extends Controller
         $ob->save();
 
 
-
-        $o = new History();
-        $o->camera_id = $request->camera_id;
-        $o->history_last = "มีการเคื่อนไหว";
-        $o->id = auth()->id();
-        $o->id_post = "1";
-        $o->id_posted = "2"; 
-        $o->work_id = $work_id;
-        $o->save();
-
-
-
-
-
 ///////////////////////////////////////////////////////////
         return back();
 
     }
 
 
-// ส่งงาน admin
+// ช่างกดส่งงานให้ admin
 
     public function work_1(Request $request , $work_id )
     {
@@ -403,10 +524,17 @@ class CameraController extends Controller
         $data->save();
 
 
-        
+        $jo =    Camera::orderBy('camera_id','desc')
+            ->join('work_repair', 'camera.camera_id', '=', 'work_repair.camera_id')
+            ->join('work', 'camera.camera_id', '=', 'work.camera_id')
+
+            ->get(array('camera.camera_id',   
+                        'work_repair.work_repair_id'             
+            ));
 
 
-        return redirect(url('user/work_user'));
+
+         return redirect(url('user/work_user'));
     }
 
 

@@ -5,8 +5,35 @@
 @section('content')
 
 
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<h1>ข้อมูลกล้องทั้งหมด</h1>
+	</div>
 
-<a class="btn btn-primary" href="{{url('admin/camera/create')}}"><i class="fa fa-paint-brush"> </i> Create </a>
+	<div class="col-md-4">
+		<form action="/search" method="get">
+			<div class="input-group">
+				<input type="search" name="search" class="form-control">
+				<span class="input-group-prepend">
+					<button type="submit" class="btn btn-primary">Search</button>
+				</span>
+			</div>
+		</form>
+	</div>
+
+	<div class="col-md-2">
+		<a class="btn btn-primary" href="{{url('admin/camera/create')}}">
+			<i class="fa fa-paint-brush"> </i> Create 
+		</a>
+	</div>
+</div>
+
+
+
+
+
+
 
 
 @if(isset($objs))
@@ -61,6 +88,7 @@
 
 
 					@endif
+					
 					<div class="btn-group-vertical">
 					<form action="{{url('admin/camera/'.$camera->camera_id) }}" method="post" onsubmit="return(confirm('Do you want to delete ?'))">
 					{{ method_field('DELETE') }}

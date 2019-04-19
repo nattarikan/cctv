@@ -5,7 +5,7 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Work_detail extends Model
+class work_detail extends Model
 {
     public $timestamps = false;
     public $table = 'work_detail';

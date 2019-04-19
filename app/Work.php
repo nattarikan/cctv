@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
 {
-    public $timestamps = false;
+    public $timestamps = false ;
     public $table = 'work';
     protected $primaryKey = 'work_id';
 
     protected $fillable=[
     	'work_id',
-    	'work_date',
     	'camera_id',
 
         'history_des',

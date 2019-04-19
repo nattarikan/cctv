@@ -1,5 +1,3 @@
-
-
 <?php
 
 namespace App;
@@ -16,8 +14,9 @@ class Work_repair extends Model
     protected $fillable=[
     	'work_repair_id',
         'repair_status',
-        'camera_id'
-  
+        'camera_id',
+        'id',
+        'work_repair_date'
     ];
 
     public function user(){

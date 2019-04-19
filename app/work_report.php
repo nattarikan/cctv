@@ -14,7 +14,8 @@ class Work_report extends Model
     protected $fillable=[
     	'work_report_id',
         'report_status',
-        'camera_id'
+        'camera_id',
+        'id'
   
     ];
 

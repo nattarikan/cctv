@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Input;
 use DB;
 use Auth;
 use App\History;
+use App\work_report;
+use App\work_repair;
+use App\Work_detail;
 
 class ShowallUserController extends Controller
 {
@@ -44,12 +47,27 @@ class ShowallUserController extends Controller
         $obj->history_des = $request->history_des;
         $obj->save();
 
+
+
+
         $ob = new History();
-        $ob->id_post =  "1";
         $ob->camera_id = $camera_id;
         $ob->history_last = $request->history_des;
         $ob->id = Auth::user()->id ; 
+        $ob->history_do = "CCTV แจ้งเสีย";
         $ob->save();
+
+
+        // กรุณาเลือกช่างหน้างาน (เพิ่มใน ตาราง 1 ของ admin)
+
+        $new = new work_report();
+        $new->report_status = $request->history_des;
+        $new->camera_id = $camera_id;
+        $new->id = Auth::user()->id ; 
+        $new->save(); 
+
+
+
 
         return redirect(url('user/showall_user'));
     }
