@@ -14,7 +14,9 @@ class work_detail extends Model
     protected $fillable=[
     	'work_detail_id',
         'work_id',
-        'camera_id'
+        'work_dStatus',
+        'work_pic',
+        'work_des'
   
     ];
 

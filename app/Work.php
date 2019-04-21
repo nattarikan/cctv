@@ -14,8 +14,8 @@ class Work extends Model
     protected $fillable=[
     	'work_id',
     	'camera_id',
-
-        'history_des',
+        
+        'history_des'
   
     ];
 

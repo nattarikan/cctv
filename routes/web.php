@@ -124,4 +124,4 @@ Route::get('user/work_user/{work_id}/work_1',[
 	'uses' => 'CameraController@work_1',
 ]);
 
-
+ 

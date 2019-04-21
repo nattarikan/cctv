@@ -30,9 +30,15 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-sm">ส่งความคืบหน้า</button>
+  
+      
+    
+        <button type="submit" class="btn btn-primary btn-md">ส่งความคืบหน้า</button>
+     
 
-      <a class="btn btn-info btn-md" id="express" href="{{url('user/work_user/'.$data->work_id.'/work_1') }}"><i class="fa fa-check-square"></i> ซ่อมเสร็จสิ้น</a>
+      
+        <a class="btn btn-info btn-md" id="express" href="{{url('user/work_user/'.$data->work_id.'/work_1') }}"><i class="fa fa-check-square"></i> ซ่อมเสร็จสิ้น</a>
+      
 
     </form>
 

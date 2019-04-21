@@ -13,17 +13,20 @@
 	    /*width: 100%;*/
 	}
 	th {
-	    text-align: left;
+	    text-align: center;
 	    padding: 10px;
 	    font-size: 16px;
 	}
 
 	td {
-	    text-align: left;
+	    text-align: center;
 	    padding: 8px;
 	}
 
-	tr:nth-child(even){background-color: #e6e6e6}
+	tr:nth-child(even){
+		background-color: #e6e6e6;
+	}
+
 
 
 	th {
@@ -40,6 +43,15 @@
 	    background-color: #617F7F;
 	    color: white;
 	}
+
+/*auto number row*/
+	table tr {
+	  	counter-increment: rowNumber;
+	}
+	table tr td:first-child::before {
+	  	content: counter(rowNumber);
+	}
+
 </style>
 
 
@@ -57,11 +69,11 @@
 				<footer>กรุณาเลือกช่างหน้างาน</footer>
 				<tr>
 					<th>#</th>
-					<th>Name</th>
+					<th>ชื่อกล้อง</th>
 					<th>Server</th>	
-					<th>Last Status</th>	
-					<th>Date</th>
-					<th>Technician</th>
+					<th>วันที่มอบหมายงาน</th>
+					<th>ช่างผู้รับผิดชอบ</th>
+					<th>สถานะ</th>	
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -74,18 +86,15 @@
 			@if ($camera->history_des != 'Ready')
 
 	            <tr>
-					<td>{{$camera->work_report_id}}</td>
+					<td> </td>
 					<td>{{$camera->camera_name}}</td>
 					<td>{{$camera->camera_server}}</td>
-					<td>{{$camera->history_des}}</td>
 					<td>{{$camera->work_report_date}}</td>
-						
-					<td>
-						เจ้าหน้าที่ CCTV : {{ $camera->name  }}
-					</td>
-
+					<td>เจ้าหน้าที่ CCTV : {{ $camera->name  }}</td>
+					<td>{{$camera->history_des}}</td>
+				
 					<td>	
-						<a class="btn btn-success btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i> ระบุช่างหน้างาน</a>
+						<a class="btn btn-success btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i> </a>
 					</td>
 				</tr>
 
@@ -107,9 +116,7 @@
 
 
 
-<!-- 
-<br>
-<center><h3>งานที่กำลังซ่อม</h3></center> -->
+
 <br><br>
 
 <div class="table-responsive">          
@@ -118,12 +125,13 @@
 			<footer>งานที่กำลังซ่อม</footer>
 			<tr>
 				<th>#</th>
-				<th>Name</th>
+				<th>ชื่อกล้อง</th>
 				<th>Server</th>	
-				<th>Date</th>
-				<th>Technician</th>
-				<th>Last Status</th>
-				<th>Action</th>
+				<th>วันที่มอบหมายงาน</th>
+				<th>ช่างผู้รับผิดชอบ</th>
+				<th>สถานะ</th>
+				<th>ความคืบหน้า</th>
+				<th>อนุมัติการซ่อม</th>
 			</tr>
 		</thead>
         
@@ -138,19 +146,21 @@
 		@if($camera->history_des != 'Ready')
 
             <tr>
-				<td>{{$camera->work_id}}</td>
+				<td> </td>
 				<td>{{$camera->camera_name}}</td>
 				<td>{{$camera->camera_server}}</td>
 				<td>{{$camera->work_date}}</td>
-				<td>ช่างที่รับผิดชอบ : {{    $camera->name  }}</td>
+				<td>{{ $camera->name  }}</td>
 				<td>{{$camera->work_des}}</td>
 
 				<td>
-						
-					<a class="btn btn-success btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/work_report2') }}"><i class="fa fa-check-square"></i> รายงาน</a>
-
+					@if ($camera->work_dStatus == "มีรายละเอียด")	
+					<a class="btn btn-success btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/work_report2') }}"><i class="fa fa-check-square"></i> </a>
+					@endif
+				</td>
+				<td>
 					@if ($camera->work_com == "ช่างซ่อมเสร็จ")
-						<a class="btn btn-primary btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/'.$camera->camera_id.'/Ready_2') }}"><i class="fa fa-check-square"> อนุมัติการซ่อม</i></a>
+						<a class="btn btn-primary btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/'.$camera->camera_id.'/Ready_2') }}"><i class="fa fa-check-square"> </i></a>
 					@endif
 
 				</td>

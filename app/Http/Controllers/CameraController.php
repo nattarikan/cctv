@@ -311,7 +311,7 @@ class CameraController extends Controller
         $jo =    Work::orderBy('work_id','desc')
             ->join('users', 'work.id', '=', 'users.id')
             ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
-        
+            
            
             ->get(array(
                 'camera.camera_name',
@@ -327,7 +327,8 @@ class CameraController extends Controller
                 'work.work_id',
                 'work.work_date',
                 'camera.camera_id',
-                'work.work_des'
+                'work.work_des',
+                'work.work_dStatus'
 
                 
             ));
@@ -389,7 +390,7 @@ class CameraController extends Controller
 
         
 
-        $this->check_Appointment($new2->camera_name);
+        $this->check_Select($new2->camera_name);
 
         return redirect(url('admin/report'));
 
@@ -430,7 +431,9 @@ class CameraController extends Controller
         $data = Work::find($work_id);
 
 
-         $jo =    Work_detail::orderBy('work_detail_id','desc')
+
+
+        $jo =    Work_detail::orderBy('work_detail_id','desc')
             ->join('work', 'work_detail.work_id', '=', 'work.work_id')
             ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
 
@@ -506,13 +509,16 @@ class CameraController extends Controller
         $ob->work_id = $work_id; 
         $ob->work_des = $request->work_des;
         $ob->work_pic = $request->work_pic;
-        
-
-        
-
-
+        $ob->work_dStatus = "มีรายละเอียด";
         $ob->save();
+        
+
+        $ob2 = Work::find($work_id);
+        $ob2->work_dStatus = "มีรายละเอียด";
+        $ob2->save();
+
         return back();
+        
 
     }
 
@@ -567,7 +573,7 @@ class CameraController extends Controller
          return $return_array;
     }
 
-    private function check_Appointment($name) {
+    private function check_Select($name) {
         $str = "ชีพแล้ว งานเข้า!!" ;
         //$str = 'ทดสอบข้อความ';    //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
         $image_thumbnail_url = '';  // ขนาดสูงสุด 240×240px JPEG
