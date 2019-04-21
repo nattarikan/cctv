@@ -1,6 +1,6 @@
 <!-- ช่างรายงานความคืบหน้า -->
 
-@extends('layoutuser')
+@extends('layouts.layoutuser')
 
 @section('content')
 
@@ -8,43 +8,32 @@
 <div class="container">
   <div class='row'>
 
-
     <form action="{{ route('user.work_user.get_work_report', $data->work_id ) }}" enctype="multipart/form-data" >
 
+      <input id="camera_id" name="camera_id" type="hidden" value="{{$data->camera_id}}">
 
+      <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
+      <br><br>
 
-
-
-  
-<input id="camera_id" name="camera_id" type="hidden" value="{{$data->camera_id}}">
-
-
-
-
-
-
-    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-
-    <br><br>
-
-    <div class="form-group"> 
-      <div class="form-group">
-        <label for="history_des">รูปภาพ : </label>
-        <input type="file" class="form-control" name="work_pic" placeholder="Please Enter">
+      <div class="form-group"> 
+        <div class="form-group">
+          <label for="history_des">รูปภาพ : </label>
+          <input type="file" class="form-control" name="work_pic" placeholder="Please Enter">
+        </div>
       </div>
-    </div>
 
-    <div class="form-group"> 
-      <div class="form-group">
-        <label for="id">รายละเอียดการดำเนินการ : </label>
-        <input type="text" class="form-control" name="work_des" placeholder="Please Enter">
+      <div class="form-group"> 
+        <div class="form-group">
+          <label for="id">รายละเอียดการดำเนินการ : </label>
+          <input type="text" class="form-control" name="work_des" placeholder="Please Enter">
+        </div>
       </div>
-    </div>
 
-    <button type="submit" class="btn btn-primary btn-sm">ส่งความคืบหน้า</button>
+      <button type="submit" class="btn btn-primary btn-sm">ส่งความคืบหน้า</button>
 
       <a class="btn btn-info btn-md" id="express" href="{{url('user/work_user/'.$data->work_id.'/work_1') }}"><i class="fa fa-check-square"></i> ซ่อมเสร็จสิ้น</a>
+
     </form>
 
   </div>

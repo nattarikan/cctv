@@ -1,6 +1,6 @@
 <!-- admin แจ้งซ่อม+เลือกช่าง -->
 
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
 @section('content')
 <div class="container">

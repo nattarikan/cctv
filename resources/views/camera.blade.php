@@ -1,6 +1,6 @@
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
-@section('title','History)
+@section('title','History')
 
 @section('content')
 

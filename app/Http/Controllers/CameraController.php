@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use App\Camera;
 use App\History;
 use App\User;
@@ -10,12 +11,15 @@ use App\work_report;
 use App\work_repair;
 use App\Work;
 use App\Work_detail;
-use Illuminate\Support\Facades\Input;
 use DB;
 use Auth;
+use App\file;
+
 
 class CameraController extends Controller
 {
+    private $line_api = "https://notify-api.line.me/api/notify";
+    private $token = 'yJB4a6qe86VwqWCM7tcECy8qopVp3hf4RHQ7cX9ijya';
 
     public function __construct()
     {
@@ -44,6 +48,32 @@ class CameraController extends Controller
             return view('camera',['objs' => $objs, 'jo' => $jo]);
         
     }
+
+
+//ประวัติทั้งหมด User
+     public function AllHistoryUser()
+    {
+        $ch = new CheckstatusController();
+        $ch->checkstatusUser();
+
+
+        $objs = Camera::paginate(100);
+      
+        
+
+        $jo =    History::orderBy('history_id','desc')
+            ->join('users', 'history.id', '=', 'users.id')
+            ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
+
+            ->get(array('history.history_id','camera.camera_name','camera.history_des',
+                        'camera.camera_server','history.history_date','users.name',
+                        'camera.camera_ip','camera.camera_brand','history.history_do'));
+
+            return view('camera_user',['objs' => $objs, 'jo' => $jo]);
+        
+    }
+
+
 
 
     public function create()
@@ -98,15 +128,9 @@ class CameraController extends Controller
     }
 
     public function search(Request $request)
-    {   $search = $request->get('search');
-        $posts= DB::table('camera')->where(
-            'camera_name',
-            'camera_ip',
-            'camera_server',
-            'camera_brand',
-            'history_des',
-            '%'.$search.'%')->paginate(5);
-        return view('camera', ['posts' => $posts]);
+    {  
+
+
     }
 
 
@@ -125,7 +149,7 @@ class CameraController extends Controller
 
 
 
-// คืนสถานะพร้อมใช้งาน
+// คืนสถานะพร้อมใช้งาน หน้า showall
    public function GetReady($camera_id)
     {
         $obj = Camera::find($camera_id);
@@ -308,34 +332,9 @@ class CameraController extends Controller
                 
             ));
 
-
-
-
-
             
 
-        // ตาราง 3
-        $table3 = Work::orderBy('work_id','desc')
-            ->join('users', 'work.id', '=', 'users.id')
-            ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
-
-            ->get(array('work.work_id',
-                'camera.camera_name',
-                'camera.history_des',
-                'camera.camera_server',
-                'work.work_com',
-
-                'work.work_date',
-                'users.name',
-                'camera.camera_id',
-                'camera.camera_ip',
-                'camera.camera_brand'));
-            
-
-
-
-
-           return view('report',[ 'jo'=>$jo ,  'cctv' => $cctv ,'table3' => $table3 ]);
+           return view('report',[ 'jo'=>$jo ,  'cctv' => $cctv ]);
         
          
     }
@@ -388,6 +387,10 @@ class CameraController extends Controller
         $new2->save();
 
 
+        
+
+        $this->check_Appointment($new2->camera_name);
+
         return redirect(url('admin/report'));
 
     }
@@ -410,9 +413,6 @@ class CameraController extends Controller
                         'camera.camera_server','users.name','camera.camera_id','work.work_pic',
                         'work.work_des','work.work_id',
                         'camera.camera_ip','camera.camera_brand','work.work_com'));
-
-        
-
 
 
             return view('work_user',['objs' => $objs, 'jo' => $jo]);
@@ -506,10 +506,12 @@ class CameraController extends Controller
         $ob->work_id = $work_id; 
         $ob->work_des = $request->work_des;
         $ob->work_pic = $request->work_pic;
+        
+
+        
+
+
         $ob->save();
-
-
-///////////////////////////////////////////////////////////
         return back();
 
     }
@@ -536,6 +538,55 @@ class CameraController extends Controller
 
          return redirect(url('user/work_user'));
     }
+
+
+
+//Line Notification
+    private function send_notify_message($message_data)
+    {
+        $headers = array('Method: POST', 'Content-type: multipart/form-data', 'Authorization: Bearer '.$this->token );
+
+        $ch =   curl_init();
+                curl_setopt($ch, CURLOPT_URL, $this->line_api);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $message_data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+         
+        // Check Error
+        if(curl_error($ch)) {
+            $return_array = array( 'status' => '000: send fail', 'message' => curl_error($ch) );
+         } 
+
+         else {
+            $return_array = json_decode($result, true);
+         }
+         
+         curl_close($ch);
+         return $return_array;
+    }
+
+    private function check_Appointment($name) {
+        $str = "ชีพแล้ว งานเข้า!!" ;
+        //$str = 'ทดสอบข้อความ';    //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+        $image_thumbnail_url = '';  // ขนาดสูงสุด 240×240px JPEG
+        $image_fullsize_url = '';  // ขนาดสูงสุด 1024×1024px JPEG
+        $sticker_package_id = 1;  // Package ID ของสติกเกอร์
+        $sticker_id = 410;    // ID ของสติกเกอร์
+        $message_data = array(
+            'message' => $str,
+            'imageThumbnail' => $image_thumbnail_url,
+            'imageFullsize' => $image_fullsize_url,
+            // 'stickerPackageId' => $sticker_package_id,
+            // 'stickerId' => ''
+        );
+        
+        $result = $this->send_notify_message($message_data);
+    }
+
+
+
 
 
 }

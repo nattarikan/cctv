@@ -1,7 +1,7 @@
 
 <!-- หน้างานใหม่ Admin -->
 
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
 @section('title','All camera')
 
@@ -56,7 +56,7 @@
 			<thead>
 				<footer>กรุณาเลือกช่างหน้างาน</footer>
 				<tr>
-					<th>ID</th>
+					<th>#</th>
 					<th>Name</th>
 					<th>Server</th>	
 					<th>Last Status</th>	
@@ -80,11 +80,9 @@
 					<td>{{$camera->history_des}}</td>
 					<td>{{$camera->work_report_date}}</td>
 						
-
 					<td>
-						เจ้าหน้าที่ CCTV : {{    $camera->name  }}
+						เจ้าหน้าที่ CCTV : {{ $camera->name  }}
 					</td>
-
 
 					<td>	
 						<a class="btn btn-success btn-md" id="express" href="{{url('admin/camera/'.$camera->camera_id.'/Select') }}"><i class="fa fa-check-square"></i> ระบุช่างหน้างาน</a>
@@ -119,7 +117,7 @@
 		<thead>
 			<footer>งานที่กำลังซ่อม</footer>
 			<tr>
-				<th>ID</th>
+				<th>#</th>
 				<th>Name</th>
 				<th>Server</th>	
 				<th>Date</th>
@@ -147,7 +145,8 @@
 				<td>ช่างที่รับผิดชอบ : {{    $camera->name  }}</td>
 				<td>{{$camera->work_des}}</td>
 
-				<td>	
+				<td>
+						
 					<a class="btn btn-success btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/work_report2') }}"><i class="fa fa-check-square"></i> รายงาน</a>
 
 					@if ($camera->work_com == "ช่างซ่อมเสร็จ")
@@ -156,6 +155,7 @@
 
 				</td>
 			</tr>
+
 
 		@endif
 		@endif
@@ -189,4 +189,14 @@ $(document).ready(function() {
 
 
 
+
+
+
+
+
+
 @stop
+
+
+
+

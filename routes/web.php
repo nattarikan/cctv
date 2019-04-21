@@ -78,10 +78,7 @@ Route::get('admin/report/{work_id}/work_report2',[
 	'as' => 'admin.report.work_report2'
 ]);
 
-// Route::get('admin/camera/{camera_id}/history',[
-// 	'uses' => 'CameraController@history',
-// 	'as' => 'admin.camera.history_by_id'
-// ]);
+
 
 
 
@@ -91,6 +88,8 @@ Route::get('admin/report/{work_id}/work_report2',[
 Route::get('/user/home', function () {
     return view('HomeUser');
 });
+
+Route::get('user/camera','CameraController@AllHistoryUser');
 
 Route::resource('user/showall_user','ShowallUserController');
 
@@ -124,3 +123,5 @@ Route::get('user/work_user/{work_id}/get_work_report',[
 Route::get('user/work_user/{work_id}/work_1',[
 	'uses' => 'CameraController@work_1',
 ]);
+
+

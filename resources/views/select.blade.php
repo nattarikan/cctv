@@ -1,17 +1,14 @@
 <!-- admin เลือกช่าง -->
 
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
 @section('content')
 <div class="container">
   <div class='row'>
 
-<form action="{{ route('admin.camera.select', $data->camera_id ) }}" enctype="multipart/form-data" >
+    <form action="{{ route('admin.camera.select', $data->camera_id ) }}" enctype="multipart/form-data" >
 
-
-
-
-  <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
   <br><br>
 
   <div class="form-group"> 
@@ -35,6 +32,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
   <button type="submit" class="btn btn-primary btn-sm">Submit</button>
 
 </form>
@@ -43,3 +52,6 @@
 </div>
 
 @endsection
+
+
+

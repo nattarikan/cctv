@@ -1,6 +1,6 @@
 <!-- cctv แจ้งซ่อม -->
 
-@extends('layoutuser')
+@extends('layouts.layoutuser')
 
 @section('content')
 <div class="container">

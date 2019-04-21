@@ -1,4 +1,4 @@
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
 @section('title','Create News')
 

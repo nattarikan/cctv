@@ -1,6 +1,6 @@
 <!-- Admin ดู ช่างรายงานความคืบหน้า -->
 
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
 @section('title','รายงานความคืบหน้า')
 

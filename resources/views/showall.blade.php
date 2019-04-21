@@ -1,4 +1,4 @@
-@extends('layoutadmin')
+@extends('layouts.layoutadmin')
 
 @section('title','All camera')
 
@@ -11,7 +11,7 @@
 		<h1>ข้อมูลกล้องทั้งหมด</h1>
 	</div>
 
-	<div class="col-md-4">
+	<!-- <div class="col-md-4">
 		<form action="/search" method="get">
 			<div class="input-group">
 				<input type="search" name="search" class="form-control">
@@ -20,7 +20,7 @@
 				</span>
 			</div>
 		</form>
-	</div>
+	</div> -->
 
 	<div class="col-md-2">
 		<a class="btn btn-primary" href="{{url('admin/camera/create')}}">

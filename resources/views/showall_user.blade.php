@@ -1,4 +1,4 @@
-@extends('layoutuser')
+@extends('layouts.layoutuser')
 
 @section('title','All camera')
 
@@ -42,18 +42,17 @@
 					<td>{{$camera->camera_server}}</td>
 					<td>{{$camera->camera_ip}}</td>
 					<td>{{$camera->camera_brand}}</td>
-					<td>{{$camera->history_des}}</td>
+					<td>{{$camera->history_des}} </td>
 					
 					</td>
 
 
 					<td>
-					<div >
-					@if($camera->history_des == 'Ready')
-						<a class="btn btn-success btn-md" id="express" href="{{url('user/camera/'.$camera->camera_id.'/declare_user') }}"><i class="fa fa-check-square"></i></a>
-					@endif
-
-					</div>
+						<div >
+						@if($camera->history_des == 'Ready')
+							<a class="btn btn-success btn-md" id="express" href="{{url('user/camera/'.$camera->camera_id.'/declare_user') }}"><i class="fa fa-check-square"></i></a>
+						@endif
+						</div>
 					</td>
 
                 </tr>

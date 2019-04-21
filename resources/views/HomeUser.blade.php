@@ -1,4 +1,4 @@
-@extends('layoutuser')
+@extends('layouts.layoutuser')
 
 @section('title','All camera')
 

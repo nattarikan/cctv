@@ -1,6 +1,6 @@
 <!-- งานใหม่ user -->
 
-@extends('layoutuser')
+@extends('layouts.layoutuser')
 
 @section('title','All camera')
 
@@ -59,7 +59,7 @@
 				<footer>งานของฉัน</footer>
 				<tr>
 					<th>Date</th>
-					<th>รูป</th>
+					
 					<th>Name</th>
 					<th>ระยะดำเนินการ</th>
 					<th>ปุ่ม</th>
@@ -76,7 +76,7 @@
 
 	                <tr>
 						<td>{{$camera->work_date}}</td>
-						<td>{{$camera->work_pic}}</td>
+						
 						<td><b>{{$camera->camera_name}} </b> <br>
 						{{$camera->history_des}}</td>
 						<td>{{$camera->work_des}}</td>
