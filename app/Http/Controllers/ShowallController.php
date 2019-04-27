@@ -132,6 +132,19 @@ class ShowallController extends Controller
 
     }
 
+
+   public function del(Request $request)
+   {
+        $delid = $request->delete;
+
+        print_r($delid);
+
+        dd($delid);
+
+        //return redirect('/')->with('success', 'ลบข้อมูลกล้องตัวที่แล้ว');
+
+   }
+
   
 
 }

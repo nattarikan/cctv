@@ -154,9 +154,9 @@
 				<td>{{$camera->work_des}}</td>
 
 				<td>
-					@if ($camera->work_dStatus == "มีรายละเอียด")	
+					
 					<a class="btn btn-success btn-md" id="express" href="{{url('admin/report/'.$camera->work_id.'/work_report2') }}"><i class="fa fa-check-square"></i> </a>
-					@endif
+				
 				</td>
 				<td>
 					@if ($camera->work_com == "ช่างซ่อมเสร็จ")
@@ -206,7 +206,6 @@ $(document).ready(function() {
 
 
 @stop
-
 
 
 

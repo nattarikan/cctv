@@ -21,13 +21,14 @@ Route::get('admin/camera/{camera_id}/Ready/','CameraController@GetReady'); //ถ
 
 Route::get('admin/report/{work_id}/{camera_id}/Ready_2/','CameraController@GetReady_2');
 
+Route::get('admin/camera/{camera_id}/Declare/','CameraController@GetDeclare');
 
-
+Route::post('admin/camera/{camera_id}/Declare/','CameraController@GetDeclare');
 
 
 
 //cctv แจ้งเสีย
-Route::get('admin/camera/{camera_id}/Declare/','CameraController@GetDeclare');
+Route::get('admin/camera/del','CameraController@GetDeclare');
 
 
 //หลังจากกดส่งปัญหาที่เสีย
@@ -79,6 +80,11 @@ Route::get('admin/report/{work_id}/work_report2',[
 ]);
 
 
+//delete all
+Route::post('admin/del','ShowallController@del');
+
+
+
 
 
 
@@ -123,5 +129,7 @@ Route::get('user/work_user/{work_id}/get_work_report',[
 Route::get('user/work_user/{work_id}/work_1',[
 	'uses' => 'CameraController@work_1',
 ]);
+
+
 
  

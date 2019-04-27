@@ -29,6 +29,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- icon มุมเว็บ -->
+        <link rel="icon" type="image/png" href="https://img.icons8.com/color/48/000000/webcam.png" />
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -176,4 +178,3 @@ $(document).ready(function() {
 
 </script>
 </html> 
-

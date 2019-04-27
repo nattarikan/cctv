@@ -227,6 +227,7 @@ class CameraController extends Controller
         ->join('camera', 'history.camera_id', '=', 'camera.camera_id')
         ->get(array('history.history_id','camera.camera_name','camera.history_des','history.history_last',
         'camera.camera_server','history.history_date','users.name','camera.camera_id','camera.camera_ip','camera.camera_brand','history.history_do'));
+    
     $id = $camera_id ;
     
         return view('history_ByID_User',['jo' => $jo , 'id' => $id ]);
@@ -245,17 +246,12 @@ class CameraController extends Controller
 
 
 
-
+// admin แจ้ง+เลือก
     public function PostDeclare(Request $request , $camera_id )
     {
-
-
         $obj = Camera::find($camera_id);
         $obj->history_des = $request->history_des;
         $obj->save();
-
-
-
 
         $ob = new History();
         $ob->camera_id = $camera_id;
@@ -264,15 +260,11 @@ class CameraController extends Controller
         $ob->history_do = "Admin แจ้งเสียเอง" ;
         $ob->save(); 
 
-
-
         $wo = new Work();
         $wo->id = $request['id']; 
         $wo->camera_id = $camera_id;
         $wo->history_des = $request->history_des;
         $wo->save();
-
-
 
         $new2 = new work_repair();
         $new2->id = $request['id']; 
@@ -280,11 +272,15 @@ class CameraController extends Controller
         $new2->repair_status = $request->history_des;
         $new2->save();
 
+
+        $this->Send_Line($wo->id,
+                         $wo->camera_id,
+                         $wo->history_des,
+                         $wo->work_id);
+
+
         return redirect(url('admin/showall'));
     }
-
-
-
 
 
 //หน้าโชว์ 3 ตารางของ admin
@@ -352,11 +348,10 @@ class CameraController extends Controller
 
 
 
-
+// cctv แจ้ง admin เลือก
 
     public function PostSelect(Request $request , $camera_id )
     {
-      
         $ob = new History();
         $ob->camera_id = $camera_id;
         $ob->history_last = $request->history_des;
@@ -364,11 +359,9 @@ class CameraController extends Controller
         $ob->history_do = "Admin เลือกช่าง" ;
         $ob->save();
 
-
         $del = DB::table('work_report')
              ->where('camera_id', $camera_id);
         $del->delete(); 
-
 
         $wo = new Work();
         $wo->id = $request['id']; 
@@ -376,22 +369,17 @@ class CameraController extends Controller
         $wo->history_des = $request->history_des;
         $wo->save();
 
-
-
         // งานที่กำลังทำ
-
-
         $new2 = new work_repair();
         $new2->id = $request['id']; 
         $new2->repair_status = $request->history_des;
         $new2->camera_id = $camera_id;
         $new2->save();
 
+      
+        // $this->Send_Line($wo);
 
-        
-
-        $this->check_Select($new2->camera_name);
-
+      
         return redirect(url('admin/report'));
 
     }
@@ -573,28 +561,36 @@ class CameraController extends Controller
          return $return_array;
     }
 
-    private function check_Select($name) {
-        $str = "ชีพแล้ว งานเข้า!!" ;
-        //$str = 'ทดสอบข้อความ';    //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-        $image_thumbnail_url = '';  // ขนาดสูงสุด 240×240px JPEG
-        $image_fullsize_url = '';  // ขนาดสูงสุด 1024×1024px JPEG
-        $sticker_package_id = 1;  // Package ID ของสติกเกอร์
-        $sticker_id = 410;    // ID ของสติกเกอร์
-        $message_data = array(
-            'message' => $str,
-            'imageThumbnail' => $image_thumbnail_url,
-            'imageFullsize' => $image_fullsize_url,
-            // 'stickerPackageId' => $sticker_package_id,
-            // 'stickerId' => ''
-        );
+    private function Send_Line($name,$cam,$des,$work_id) {
+
         
-        $result = $this->send_notify_message($message_data);
+            // $jo =    Work::orderBy('$work_id','desc')
+            // ->join('users', 'work.id', '=', 'users.id')
+            // ->join('camera', 'work.camera_id', '=', 'camera.camera_id')
+            
+            // ->get(array(
+            //     'camera.camera_name',
+            //     'camera.history_des',
+            //     'users.name'
+            // ));
+
+
+
+            $str = "แจ้งเหตุขัดข้อง!! \nกล้อง :".$cam."\nช่างผู้รับผิดชอบ".$name."\nอาการ :".$des ;
+
+            $image_thumbnail_url = '';  // ขนาดสูงสุด 240×240px JPEG
+            $image_fullsize_url = '';  // ขนาดสูงสุด 1024×1024px JPEG
+            $sticker_package_id = 1;  // Package ID ของสติกเกอร์
+            $sticker_id = 410;    // ID ของสติกเกอร์
+            $message_data = array(
+                'message' => $str,
+                'imageThumbnail' => $image_thumbnail_url,
+                'imageFullsize' => $image_fullsize_url,
+                // 'stickerPackageId' => $sticker_package_id,
+                // 'stickerId' => ''
+            );
+            
+             $result = $this->send_notify_message($message_data);
     }
-
-
-
-
-
 }
-
 

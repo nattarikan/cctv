@@ -5,6 +5,12 @@
 @section('content')
 
 
+
+<form action="{{ url("admin.del") }}" method="post"></form>
+
+<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+
+
 <br>
 <div class="row">
 	<div class="col-md-6">
@@ -22,16 +28,17 @@
 		</form>
 	</div> -->
 
+	
+</div>
+
+<br>
 	<div class="col-md-2">
 		<a class="btn btn-primary" href="{{url('admin/camera/create')}}">
 			<i class="fa fa-paint-brush"> </i> Create 
 		</a>
 	</div>
-</div>
 
-
-
-
+<br><br>
 
 
 
@@ -43,8 +50,11 @@
 		<table class="table">
 			<thead>
 				<tr>
-					
-					<th>ID</th>
+					<th>
+						<button type="submit" class="btn btn-danger"><i class="fa fa-trash"> </i></button>
+					</th>
+
+					<th>ลำดับ</th>
 					<th>Name</th>
 					<th>Server</th>	
 					<th>IP</th>	
@@ -62,6 +72,8 @@
 @foreach($objs   as $camera)
 
                 <tr>
+
+                	<td> <input type="checkbox" name="delid[]" value="{{$camera->camera_id}}" class="checkthis" value="" > </td>
 					<td>{{$camera->camera_id}}</td>
 
 					<td><a  id="express" href="{{url('admin/camera/'.$camera->camera_id.'/history') }}">
@@ -90,14 +102,14 @@
 					@endif
 					
 					<div class="btn-group-vertical">
-					<form action="{{url('admin/camera/'.$camera->camera_id) }}" method="post" onsubmit="return(confirm('Do you want to delete ?'))">
-					{{ method_field('DELETE') }}
-					{{ csrf_field() }} 
+						<form action="{{url('admin/camera/'.$camera->camera_id) }}" method="post" onsubmit="return(confirm('Do you want to delete ?'))">
+						{{ method_field('DELETE') }}
+						{{ csrf_field() }} 
+						
+						<button type="submit" class="btn btn-danger"><i class="fa fa-trash">  </i></button>
+						</form>
 					
-					<button type="submit" class="btn btn-danger"><i class="fa fa-trash">  </i></button>
-					</form>
-					
-</div>	 
+					</div>	 
 
 					</div>
 					</td>
